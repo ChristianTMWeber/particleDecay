@@ -14,6 +14,8 @@ Tests the ThreeVector class which implements real three element vectors in C++
 //load the packages that we need
 #include <iostream> // for cin, cout
 #include <cmath> 
+#include <string> 
+#include <sstream> 
 //we do not want to type 'std::' all the time, so includethe std namespace
 using namespace std;
 
@@ -21,6 +23,10 @@ using namespace std;
 
 void allElementsEqual(  const int &n,const ThreeVector &vA, const ThreeVector &vB);
 void allElementsUnequal(const int &n,const ThreeVector &vA, const ThreeVector &vB);
+
+//TEST
+//implement the output operator overloading for the ThreeVector class
+//ostream& operator<<(ostream& os, const ThreeVector& vOut);
 
 int main(int argc, char *argv[]) {
 	const double pi = 3.141592653589793;
@@ -94,8 +100,14 @@ int main(int argc, char *argv[]) {
 	if( v12.perp()==5){cout << "Test "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 
-	cout << abs( -1*(v11c.theta()-pi/4)) <<"   " << 1E-5<< endl;
-//    &&(v11d.theta()==-pi/2&&(v11e.theta()==atan2(-6,-23))
+	//test the output operator
+	n=13;
+	stringstream testStringStream, referenceStringStream;
+	testStringStream 		<< v12;
+	referenceStringStream	<< v12.x() <<"\t"<< v12.y() <<"\t"<< v12.z();
+	if(testStringStream.str() ==referenceStringStream.str() ){cout << "Test "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+
 
 }
 
@@ -111,3 +123,8 @@ void allElementsUnequal(const int &n,const ThreeVector &vA, const ThreeVector &v
 	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 }
+
+//ostream& operator<<(ostream& os, const ThreeVector& vOut){
+//	os << vOut.x() <<"\t"<< vOut.y() <<"\t"<< vOut.z() <<"\t";
+//	return os;
+//}

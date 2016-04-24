@@ -41,6 +41,12 @@ double ThreeVector::phi()const{return atan2(y(),x());} //return the azimuthal an
 double ThreeVector::theta()const{ return acos(z()/mag());} //return the polar angle of the vector
 double ThreeVector::perp()const{return sqrt(pow(x(),2)+pow(y(),2));} //return the transverse (to z) component of the vector
 
+std::ostream& operator<<(std::ostream& os, const ThreeVector& vOut){
+	os << vOut.x() <<"\t"<< vOut.y() <<"\t"<< vOut.z();
+	return os;
+}
+
+
 //// set set methods
 //set each element of the vector individually
 void ThreeVector::setX(double val){mx = val;} //set y component of 3 vector
@@ -48,4 +54,5 @@ void ThreeVector::setY(double val){my = val;} //set y component of 3 vector
 void ThreeVector::setZ(double val){mz = val;} //set z component of 3 vector
 
 //Assignment Operator
-ThreeVector ThreeVector::operator=(const ThreeVector& assignMeVector){ setX(assignMeVector.x()); setY(assignMeVector.y()); setZ(assignMeVector.z());}//This Assignment Operator is self-assignment safe, e.g. nothing gets deleted in any part of the self asignment process. And being self-assignment safe is preferably, to having an operator that needs protected from self assignment. So we do not even check here for self assignment.
+ThreeVector ThreeVector::operator=(const ThreeVector& assignMeVector){ setX(assignMeVector.x()); setY(assignMeVector.y()); setZ(assignMeVector.z());
+return *this;}//This Assignment Operator is self-assignment safe, e.g. nothing gets deleted in any part of the self asignment process. And being self-assignment safe is preferably, to having an operator that needs protected from self assignment. So we do not even check here for self assignment.

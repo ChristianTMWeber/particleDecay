@@ -12,6 +12,7 @@ ThreeVector - A class that implements (real valued) three component vectors in C
 */
 #ifndef ThreeVector_h
 #define ThreeVector_h
+#include <iostream> // for cin, cout
 
 // class delceration
 class ThreeVector{
@@ -42,7 +43,7 @@ public:
 	double phi()const; //return the azimuthal angle of the vector in the xy plane
 	double theta()const; //return the polar angle of the vector
 	double perp()const; //return the transverse (to z) component of the vector
-
+	friend std::ostream& operator<<(std::ostream& os, const ThreeVector& vOut);
 
 	//// set members
 	//set each element of the vector individually
@@ -52,6 +53,7 @@ public:
 
 	//Assignment Operator
 	ThreeVector operator=(const ThreeVector& assignMeVector);
+
 
 };
 
