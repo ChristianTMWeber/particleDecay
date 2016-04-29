@@ -68,9 +68,9 @@ public:
 template<typename aType>  		//default constructor
 ThreeVector<aType>::ThreeVector(){mx=0; my=0; mz=0;}
 template<typename aType> 		// set constructor
-ThreeVector<aType>::ThreeVector(aType x, aType y, aType z){setX(x); setY(y); setZ(z);} 
+ThreeVector<aType>::ThreeVector(aType x, aType y, aType z){mx=x; my=y; mz=z;} 
 template<typename aType> 		//copy constructor
-ThreeVector<aType>::ThreeVector(const ThreeVector &copyMeVector){ setX(copyMeVector.x()); setY(copyMeVector.y()); setZ(copyMeVector.z());}
+ThreeVector<aType>::ThreeVector(const ThreeVector &copyMeVector){ mx=copyMeVector.x(); my=copyMeVector.y(); mz=copyMeVector.z();}
 //unless the methods .x, .y, .z are also declared as constant, we will get an error here.
 
 ////Destructor
@@ -114,7 +114,7 @@ void ThreeVector<aType>::setZ(aType val){mz = val;} //set z component of 3 vecto
 
 //Assignment Operator
 template <typename aType>
-ThreeVector<aType> ThreeVector<aType>::operator=(const ThreeVector& assignMeVector){ setX(assignMeVector.x()); setY(assignMeVector.y()); setZ(assignMeVector.z());
+ThreeVector<aType> ThreeVector<aType>::operator=(const ThreeVector& assignMeVector){ mx=assignMeVector.x(); my=assignMeVector.y(); mz=assignMeVector.z();
 return *this;}//This Assignment Operator is self-assignment safe, e.g. nothing gets deleted in any part of the self asignment process. And being self-assignment safe is preferably, to having an operator that needs protected from self assignment. So we do not even check here for self assignment.
 //NOTE, assigments are right now only between ThreeVector<aType> of the same <aType> supported
 
