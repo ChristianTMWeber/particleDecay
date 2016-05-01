@@ -13,6 +13,7 @@ Tests the ThreeVector class which implements real three element vectors in C++
 
 //load the packages that we need
 #include <iostream> // for cin, cout
+#include <fstream>
 #include <cmath> 
 #include <string> 
 #include <sstream> 
@@ -21,8 +22,20 @@ using namespace std;
 
 //declarations for functions that we want to use
 
+//declaration for vector of type double
 void allElementsEqual(  const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
 void allElementsUnequal(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
+
+void vectorsEqualWithinAccucary(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
+//declaration for vector of type int
+void allElementsEqual(  const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB);
+void allElementsUnequal(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB);
+//declaration for scalar of type int
+void allElementsEqual(  const int &n,const  int &sA, const int &sB);
+//declaration for scalar of type bool
+void allElementsEqual(  const int &n,const  bool &sA, const bool &sB);
+//declaration for scalar of type double
+void allElementsEqual(  const int &n,const  double &sA, const double &sB);
 
 //TEST
 //implement the output operator overloading for the ThreeVector class
@@ -72,6 +85,7 @@ int main(int argc, char *argv[]) {
 	n=7;
 	v6.setX(2*v6.x());		v6.setY(2*v6.y());		v6.setZ(2*v6.z());
 	allElementsUnequal(n,v3,v6);
+
 	//What happens if we self reference? Nothing should happen. 
 	n=8;
 	ThreeVector<double> v8;
@@ -116,16 +130,227 @@ int main(int argc, char *argv[]) {
 	testStringStream 		<< v12;
 	referenceStringStream	<< v12.x() <<"\t"<< v12.y() <<"\t"<< v12.z();
 
-	if(testStringStream.str() ==referenceStringStream.str() ){cout << "Test "<<n<<" passed!"<< endl;}
+	if(testStringStream.str() == referenceStringStream.str() ){cout << "Test "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 
+	//test the += operator
+	n=14;
+	ThreeVector<int> v14(0,0,0);
+	v14+=v12;
+	allElementsEqual(n,v14,v12);
 
+	//Test + operator
+	n=15;
+	ThreeVector<int> v15summand(0,0,0),v15sum(0,0,0),v15check(0,0,0);
+	v15sum=v15summand+v14;
+	allElementsEqual(n,v15sum,v14);
+
+	//Test that v15summand did not change
+	n=16;
+	allElementsEqual(n,v15summand,v15check);
+
+	//test the *= operator
+	n=17;
+	ThreeVector<int> v17=v12;
+	v17*=2;
+	allElementsEqual(n,v17,v12+v12);
+
+	//Test * operator, specifically: vector*scalar
+	n=18;
+	ThreeVector<int> v18product(0,0,0), v18factor(95,-7,22);
+	ThreeVector<int> v18Check = v18factor;
+	int scalarFactor = 3;
+	v18product = v18factor*scalarFactor;
+	allElementsEqual(n,v18product,v18factor+v18factor+v18factor);
+
+	//Test that v18factor did not change
+	n=19;
+	allElementsEqual(n,v18factor,v18Check);
+
+	//Test * operator, specifically: scalar*vector
+	n=20;
+	ThreeVector<int> v20product(0,0,0), v20factor(-7,8,22);
+	v20product = scalarFactor*v20factor;
+	allElementsEqual(n,v20product,v20factor*=scalarFactor);
+
+	//Test * operator, specifically: vector*scalar
+	n=21;
+	ThreeVector<int> v21product(0,0,0), v21factor(-4,81,2);
+	v21product = v21factor*scalarFactor;
+	allElementsEqual(n,v21product,v21factor*=scalarFactor);
+
+	//test the -= operator
+	n=22;
+	ThreeVector<int> v22(0,0,0),v22subtrahend(9,-13,93);
+	v22-=v22subtrahend;
+	allElementsEqual(n,v22,v22subtrahend*(-1));
+
+	//Test - operator
+	n=23;
+	ThreeVector<int> v23(0,0,0);
+	v23=v22-v22subtrahend;
+	allElementsEqual(n,v23,v22subtrahend*(-2));
+
+	//Test /= operator
+	n=24;
+	ThreeVector<int> v24dividend(2,4,8), v24quotient(1,2,4);
+	int divisor = 2;
+	v24dividend/=divisor;
+	allElementsEqual(n,v24dividend,v24quotient);
+
+	//Test / operator
+	n=26;
+	ThreeVector<int> v25dividend(2,4,8), v25quotient;
+	v25quotient = v25dividend/divisor;
+	allElementsEqual(n,v25quotient,v24quotient);
+
+	//Test unary + operator
+	n=27;
+	allElementsEqual(n,+v25quotient,v24quotient);
+
+	//Test unary + operator
+	n=28;
+	ThreeVector<int> v28(0,0,0);
+	allElementsEqual(n,-v24quotient,v28-v24quotient);
+
+	//Test dot-product
+	n=29;
+	ThreeVector<int> v29(1,2,3);
+	allElementsEqual(n,v29*v29,14);
+
+	//Test abs() function
+	n=30;
+	ThreeVector<int> v30(1,2,2);
+	allElementsEqual(n,abs(v30),3);
+
+	//Test cross() method
+	n=31;
+	ThreeVector<int> v31c(8,3,6),v31b(-7,1,2),v31a(0,-58,29);
+	allElementsEqual(n,v31c.cross(v31b),v31a);
+
+
+	n=32;
+	ThreeVector<int> v32a(1,2,3);
+	ThreeVector<int> v32b(v32a[0],v32a[1],v32a[2]);
+	allElementsEqual(n,v32a,v32b);
+
+	//Test array subscriting -- value setting
+	n=33;
+	ThreeVector<int> v33(4,5,6);
+	v32a[0]=v33.x(); 	v32a[1]=v33.y();	v32a[2]=v33.z();
+	allElementsEqual(n,v32a,v33);
+
+	//Test .rotateX method
+	n=34;
+	ThreeVector<double> v34(0,0,1), v34rotated,v34target(0,-1,0);
+	v34rotated=v34.rotateX(pi/2);
+	vectorsEqualWithinAccucary(n,v34rotated,v34target);
+
+	//Test .rotateY method
+	n=35;
+	ThreeVector<double> v35(1,1,1), v35rotated,v35target(sqrt(2),1,0);
+	v35rotated=v35.rotateY(pi/4);
+	vectorsEqualWithinAccucary(n,v35rotated,v35target);
+
+	//Test .rotateZ method
+	n=36;
+	ThreeVector<double> v36(10,-2,4), v36rotated,v36target(1+5*sqrt(3),5-sqrt(3),4);
+	v36rotated=v36.rotateZ(pi/6);
+	vectorsEqualWithinAccucary(n,v36rotated,v36target);
+	
+	//Test .unit method
+	n=37;
+	ThreeVector<int> v37(2,0,0),v37target(1,0,0);
+	ThreeVector<int> v37copy=v37;
+	allElementsEqual(n,v37.unit(),v37target);
+
+	//check that v37 did not change
+	n=38;
+	allElementsEqual(n,v37,v37copy);
+
+	//check == operator true state
+	n=39;
+	ThreeVector<int> v39(9,780,-977);
+	allElementsEqual(n,v39==v39,true);
+	//check == operator falste state
+	n=40;
+	allElementsEqual(n,v39==(2*v39),false);
+
+	//check ~= operator true state
+	n=41;
+	allElementsEqual(n,v39!=(2*v39),true);
+	//check ~= operator false state
+	n=42;
+	allElementsEqual(n,v39!=v39,false);
+
+	//check <<, and >> operator for file streams
+	n=43;
+	ofstream ofs43("Test43.txt");
+	ifstream ifs43("Test43.txt");
+	ThreeVector<int> v43out(2,3,5),v43in;
+
+	ofs43 << v43out	<< endl;
+	ifs43 >> v43in;
+	allElementsEqual(n,v43out,v43in);
+
+	// double check using stringstream 
+	n=44;
+	ThreeVector<int> v44out(7,11,13);
+	stringstream stringStream44;
+
+	stringStream44 << v44out << endl;
+	stringStream44 >> v43in;
+
+	allElementsEqual(n,v44out,v43in);
+	/*
+	// check cin function
+	ThreeVector<int> v45;
+	cin >> v45;
+	cout << v45;
+	*/
+	// Do the recommended check from the instruction set
+	n=45;
+	ThreeVector<double> v45a(96,66,4),v45b(76,4,32),v45c(75,28,96);
+	ThreeVector<double> v45RotateMe = v45b;
+	double x45=80, result45Target=68.6518071308040163;
+
+	double result45 = (((v45a+v45b)-v45c)/x45) * (v45RotateMe.rotateX(0.1)+v45c.unit());
+	allElementsEqual(n,result45,result45Target);
+
+
+	
+/*
+	// test getRotationMatrix
+	n=34;
+
+	ThreeVector<double> v34;
+	double aMatrix[3][3] ={};
+	v34.getRotationMatrix(aMatrix,pi/2,0,0);
+	for(int m=0;m<3;++m){ 
+	 	for(int n=0;n<3;++n){
+			cout << aMatrix[m][n] << "\t";
+		 }
+	cout << "\n";
+	}
+	cout << "\n";
+
+
+	// test getRotationMatrix
+	n=35;
+	ThreeVector<double> v35(1,3,0);
+	v34.getRotationMatrix(aMatrix,pi/2,0,0);
+	cout << v35<<"\n";
+	productVectorMatrix(v35,aMatrix);
+	cout << v35;*/
+
+ 	//cout << v32[1] <<"\t";
 }
-
+// cout << v21 <<'\n'<< v21subtrahend <<'\n'<< v22 <<endl;
 //	cout << v3.x()<< " "<< v3.y()<< " "<< v3.z()<< " "<<endl;
 //	cout << v6.x()<< " "<< v6.y()<< " "<< v6.z()<< " "<<endl;
 
-
+////function that makes it easier to compare vectors
+//definition for vector of type <double>
 void allElementsEqual(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
 	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
@@ -135,6 +360,37 @@ void allElementsUnequal(const int &n,const ThreeVector<double> &vA, const ThreeV
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 }
 
+void vectorsEqualWithinAccucary(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
+	double accuracy = 3E-15;
+	if( abs(vA-vB)<accuracy ) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+
+}
+//definition for vector of type <int>
+void allElementsEqual(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
+	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+}
+void allElementsUnequal(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
+	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+}
+
+//declaration for scalar of type int
+void allElementsEqual(  const int &n,const  int &sA, const int &sB){
+	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+}
+//declaration for scalar of type bool
+void allElementsEqual(  const int &n,const  bool &sA, const bool &sB){
+	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+}
+//declaration for scalar of type double
+void allElementsEqual(  const int &n,const  double &sA, const double &sB){
+	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
+	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+}
 //ostream& operator<<(ostream& os, const ThreeVector<double>& vOut){
 //	os << vOut.x() <<"\t"<< vOut.y() <<"\t"<< vOut.z() <<"\t";
 //	return os;
