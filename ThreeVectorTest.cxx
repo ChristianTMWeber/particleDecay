@@ -10,6 +10,7 @@ Tests the ThreeVector class which implements real three element vectors in C++
 
 //load our own files that we need
 #include "ThreeVector.h"
+#include "VectorTestFunctions.h"
 
 //load the packages that we need
 #include <iostream> // for cin, cout
@@ -20,29 +21,14 @@ Tests the ThreeVector class which implements real three element vectors in C++
 //we do not want to type 'std::' all the time, so includethe std namespace
 using namespace std;
 
-//declarations for functions that we want to use
 
-//declaration for vector of type double
-void allElementsEqual(  const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
-void allElementsUnequal(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
-
-void vectorsEqualWithinAccucary(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB);
-//declaration for vector of type int
-void allElementsEqual(  const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB);
-void allElementsUnequal(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB);
-//declaration for scalar of type int
-void allElementsEqual(  const int &n,const  int &sA, const int &sB);
-//declaration for scalar of type bool
-void allElementsEqual(  const int &n,const  bool &sA, const bool &sB);
-//declaration for scalar of type double
-void allElementsEqual(  const int &n,const  double &sA, const double &sB);
 
 //TEST
 //implement the output operator overloading for the ThreeVector class
 //ostream& operator<<(ostream& os, const ThreeVector& vOut);
 
 int main(int argc, char *argv[]) {
-	int n=0;
+	int n;
 
 	cout << "Begin ThreeVectorTest" << endl;
 
@@ -51,19 +37,22 @@ int main(int argc, char *argv[]) {
 	ThreeVector<int> v1_int;
 	//check the default constructor and the methods to get the x,y, and z components
 	n=1;
-	if((v1.x()==0)&&(v1.y()==0)&&(v1.z()==0)) {cout << "Test  "<<n<<" passed!"<< endl;}
+	if((v1.x()==0)&&(v1.y()==0)&&(v1.z()==0)) 
+		{cout << "Test  "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 
 	//check the set method
 	n=2;
 	v1.setX(4);		v1.setY(5);		v1.setZ(6);
-	if((v1.x()==4)&&(v1.y()==5)&&(v1.z()==6)) {cout << "Test  "<<n<<" passed!"<< endl;}
+	if((v1.x()==4)&&(v1.y()==5)&&(v1.z()==6)) 
+		{cout << "Test  "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 
 	//check the set constructor
-	ThreeVector<double> v2(1,2,3);
 	n=3;
-	if((v2.x()==1)&&(v2.y()==2)&&(v2.z()==3)) {cout << "Test  "<<n<<" passed!"<< endl;}
+	ThreeVector<double> v2(1,2,3);
+	if((v2.x()==1)&&(v2.y()==2)&&(v2.z()==3)) 
+		{cout << "Test  "<<n<<" passed!"<< endl;}
 	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
 
 	//check the copy constructor
@@ -318,80 +307,5 @@ int main(int argc, char *argv[]) {
 	allElementsEqual(n,result45,result45Target);
 
 
-	
-/*
-	// test getRotationMatrix
-	n=34;
-
-	ThreeVector<double> v34;
-	double aMatrix[3][3] ={};
-	v34.getRotationMatrix(aMatrix,pi/2,0,0);
-	for(int m=0;m<3;++m){ 
-	 	for(int n=0;n<3;++n){
-			cout << aMatrix[m][n] << "\t";
-		 }
-	cout << "\n";
-	}
-	cout << "\n";
-
-
-	// test getRotationMatrix
-	n=35;
-	ThreeVector<double> v35(1,3,0);
-	v34.getRotationMatrix(aMatrix,pi/2,0,0);
-	cout << v35<<"\n";
-	productVectorMatrix(v35,aMatrix);
-	cout << v35;*/
-
- 	//cout << v32[1] <<"\t";
+	return 0;
 }
-// cout << v21 <<'\n'<< v21subtrahend <<'\n'<< v22 <<endl;
-//	cout << v3.x()<< " "<< v3.y()<< " "<< v3.z()<< " "<<endl;
-//	cout << v6.x()<< " "<< v6.y()<< " "<< v6.z()<< " "<<endl;
-
-////function that makes it easier to compare vectors
-//definition for vector of type <double>
-void allElementsEqual(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
-	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-void allElementsUnequal(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
-	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-
-void vectorsEqualWithinAccucary(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
-	double accuracy = 3E-15;
-	if( abs(vA-vB)<accuracy ) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-
-}
-//definition for vector of type <int>
-void allElementsEqual(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
-	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-void allElementsUnequal(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
-	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-
-//declaration for scalar of type int
-void allElementsEqual(  const int &n,const  int &sA, const int &sB){
-	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-//declaration for scalar of type bool
-void allElementsEqual(  const int &n,const  bool &sA, const bool &sB){
-	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-//declaration for scalar of type double
-void allElementsEqual(  const int &n,const  double &sA, const double &sB){
-	if(sA==sB) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
-}
-//ostream& operator<<(ostream& os, const ThreeVector<double>& vOut){
-//	os << vOut.x() <<"\t"<< vOut.y() <<"\t"<< vOut.z() <<"\t";
-//	return os;
-//}
