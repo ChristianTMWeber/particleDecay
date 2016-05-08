@@ -155,7 +155,7 @@ int main(int argc, char *argv[]) {
 	ThreeVector<int> v18Check = v18factor;
 	int scalarFactor = 3;
 	v18product = v18factor*scalarFactor;
-	allElementsEqual(n,v18product,v18factor+v18factor+v18factor);
+	allElementsEqual(n,v18product,(v18factor+v18factor)+v18factor);
 
 	//Test that v18factor did not change
 	n=19;
@@ -202,7 +202,7 @@ int main(int argc, char *argv[]) {
 	n=27;
 	allElementsEqual(n,+v25quotient,v24quotient);
 
-	//Test unary + operator
+	//Test unary - operator
 	n=28;
 	ThreeVector<int> v28(0,0,0);
 	allElementsEqual(n,-v24quotient,v28-v24quotient);
@@ -222,7 +222,7 @@ int main(int argc, char *argv[]) {
 	ThreeVector<int> v31c(8,3,6),v31b(-7,1,2),v31a(0,-58,29);
 	allElementsEqual(n,v31c.cross(v31b),v31a);
 
-
+	//Test array subscriting -- value reading
 	n=32;
 	ThreeVector<int> v32a(1,2,3);
 	ThreeVector<int> v32b(v32a[0],v32a[1],v32a[2]);
@@ -310,7 +310,22 @@ int main(int argc, char *argv[]) {
 
 	double result45 = (((v45a+v45b)-v45c)/x45) * (v45RotateMe.rotateX(0.1)+v45c.unit());
 	allElementsEqual(n,result45,result45Target);
+	
+	//check my definition implementation of the unit vector of the (0,0,0) vector
+	n=46;
+	ThreeVector<double> v45(0,0,0);
+	cout << v45.unit();
+	
+		/*
+	ThreeVector<int> originalVec(9,8,7);
+	ThreeVector<int> clonedVec= originalVec->clone();
 
-
+	cout<< originalVec<<endl;
+	cout<< clonedVec<<endl;
+	originalVec*=2;
+	
+		cout<< originalVec<<endl;
+	cout<< clonedVec<<endl;
+	*/
 	return 0;
 }

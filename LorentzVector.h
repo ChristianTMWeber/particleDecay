@@ -17,6 +17,39 @@ LorentzVector - A class that implements (real valued) four component  lorentz ve
 class LorentzVector: public ThreeVector<double>{
 protected:
 	double ct;
+
+	void getBoostMatrix(double boostMatrix[4][4],const LorentzVector momentuFourVector){
+		//LorentzVector momentuFourVector(5,4,0,0);
+
+		ThreeVector<double> beta = (double(-1)*(momentuFourVector.vect()/momentuFourVector.E()));
+
+		ThreeVector<double> betaUnit = beta.unit();
+
+		double gamma = 1/sqrt(1-pow(beta.mag(),2));
+
+				//see Jackson p.547;
+			//boostMatrix[row][column]
+				//row 0
+				boostMatrix[0][0]=  gamma;
+				boostMatrix[0][1]= -gamma*beta.x();
+				boostMatrix[0][2]= -gamma*beta.y();
+				boostMatrix[0][3]= -gamma*beta.z();
+				//row 1
+				boostMatrix[1][0]=   -gamma*beta.x();
+				boostMatrix[1][1]= 1+(gamma-1)*betaUnit.x()*betaUnit.x();
+				boostMatrix[1][2]=   (gamma-1)*betaUnit.x()*betaUnit.y();
+				boostMatrix[1][3]=   (gamma-1)*betaUnit.x()*betaUnit.z();
+				//row 2
+				boostMatrix[2][0]=   -gamma*beta.y();
+				boostMatrix[2][1]=   (gamma-1)*betaUnit.x()*betaUnit.y();
+				boostMatrix[2][2]= 1+(gamma-1)*betaUnit.y()*betaUnit.y();
+				boostMatrix[2][3]=   (gamma-1)*betaUnit.y()*betaUnit.z();
+				//row 3
+				boostMatrix[3][0]=   -gamma*beta.z();
+				boostMatrix[3][1]=   (gamma-1)*betaUnit.x()*betaUnit.z();
+				boostMatrix[3][2]=   (gamma-1)*betaUnit.y()*betaUnit.z();
+				boostMatrix[3][3]= 1+(gamma-1)*betaUnit.z()*betaUnit.z();
+	};
 public:
 	////constructors
 
@@ -114,6 +147,30 @@ public:
 						*this*=(1/scalarDivisor);
 					return 	*this;};
 
+	//// Vector Operatorions
+
+	//Lorentz Boost
+
+	LorentzVector boost(const LorentzVector& labFrameFourMomentum){
+					double boostMatrix[4][4] ={};
+					getBoostMatrix(boostMatrix,labFrameFourMomentum);
+					productVectorMatrix(*this,boostMatrix);
+					return *this;}; //boost the vector into the lab-frame
+
+
+// product between a matrix and a vector
+// overload it for LorentzVectors and 4x4 matrices
+void productVectorMatrix(LorentzVector& fourVector,const double boostMatrix[4][4]){
+	//define a array to store the resulting vectors elements temporary
+	double resultingVector[4] ={0,0,0,0};
+
+	//perform the matrix multiplication elementwise
+	for(int m=0;m<4;++m){ 
+	 	for(int n=0;n<4;++n){ resultingVector[m] += boostMatrix[m][n] * fourVector[n]; }
+	}
+	//write the results into the aVector
+	for(int m=0;m<4;++m){ fourVector[m] = resultingVector[m];}
+	};
 };
 
 
@@ -138,6 +195,62 @@ std::istream& operator>>(std::istream& is, LorentzVector& vIn){
 	vIn.setZ(tmpZ);
 	return is;}
 	
-	
+/* ADDITION */
 
+// + operator
+//we make + not a member function, so no 'ThreeVector::'
+// we choose to template the + , and the following arithmetric operators as aType operator+(aType leftSummand, const aType& rightSummand), instead of ThreeVector<aType> operator+(ThreeVector<aType> leftSummand, const ThreeVector<aType>& rightSummand). This has the advantage that we do not have to overload the + operator again for the LorentzVectors. The downside here is that we probably overload the + operator for _all_ types, even the fundamental ones. So fingers crossed that nothing breakes. It should be ok, as long as everything is defined in terms of the +=, *=, -=, /= operators.
+
+
+
+LorentzVector operator+(const LorentzVector&  leftSummand, const LorentzVector& rightSummand){
+	LorentzVector tempVector(leftSummand);
+	//LorentzVector newSummand = leftSummand->copy(); //Lena
+	tempVector+=rightSummand;
+	return tempVector;}
+
+
+// unary + operator
+
+LorentzVector& operator+(LorentzVector& unaryPlusVector){
+	return unaryPlusVector;}
+
+/* SUBTRACTION */
+
+// - operator
+
+LorentzVector operator-(LorentzVector minuend, const LorentzVector& subtrahend){
+	minuend-=subtrahend;
+	return minuend;}
+
+// unary - operator
+
+LorentzVector& operator-(LorentzVector& unaryMinusVector){
+	unaryMinusVector*=(-1);
+	return unaryMinusVector;}
+
+/* MULTIPLICATION */
+
+// * operator -- scalar on the right
+
+LorentzVector operator*(LorentzVector leftVectorFactor, const double& rightScalarFactor){
+	leftVectorFactor*=rightScalarFactor;
+	return leftVectorFactor;}
+
+// * operator -- scalar on the left
+
+LorentzVector operator*(const double& leftScalarFactor,LorentzVector rightVectorFactor){
+	rightVectorFactor*=leftScalarFactor;
+	return rightVectorFactor;}
+
+/*DIVISION*/
+
+// / operator -- there's only the case with the scalar on the right
+
+LorentzVector operator/(LorentzVector leftVectorDividend, const double& rightScalarDivisor){
+	leftVectorDividend/=rightScalarDivisor;
+	return leftVectorDividend;}
+
+
+//// Vector Operatorions
 

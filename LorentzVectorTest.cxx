@@ -108,18 +108,16 @@ int main(int argc, char *argv[]) {
 	//check .mag
 	n=12;
 	LorentzVector  v12(3,2,1,0);
-	double s12target = 2, s12;
-	s12=v12.mag();
+	double s12target = 2;
+
 	vectorsEqualWithinAccucary(n,s12target,v12.mag());
 	
 	//and the .mass
 	n=13;
-	double s13 = v12.mass();
 	vectorsEqualWithinAccucary(n,s12target,v12.mass());
 	
 	//and abs(LorentzVector)
 	n=14;
-	double s14 = abs(v12);
 	vectorsEqualWithinAccucary(n,s12target,abs(v12));
 	
 	// check the == operator true state 
@@ -192,16 +190,92 @@ int main(int argc, char *argv[]) {
 	v24b/=2;
 	allElementsEqual(n,v24a,v24b);
 	
-	//test the + operator
-	n=25;
-	LorentzVector v25sum, v25summand;
+	//Test + operator
+	n=26;
+	LorentzVector v15summandA(100,8,45,11),v15summandB,v15sum,v15check;
+	v15sum=v15summandB+v15summandA;
+	allElementsEqual(n,v15sum,v15summandA);
 	
-	v25summand + v24a;
-	cout << v25summand + v24a << endl;
+	//Test that v15summand did not change
+	n=27;
+	allElementsEqual(n,v15summandB,v15check);
+
+	//Test * operator, specifically: vector*scalar
+	n=28;
+	LorentzVector v28product, v28factor(97,95,-7,22);
+	LorentzVector v28Check = v28factor;
+	int s28 = 2;
+	v28product = v28factor*s28;
+	allElementsEqual(n,v28product,(v28factor+v28factor));
+
+
+	//Test that v28factor did not change
+	n=29;
+	allElementsEqual(n,v28factor,v28Check);
+
+	//Test * operator, specifically: scalar*vector
+	n=30;
+	LorentzVector v30product, v30factor(87,-7,8,22);
+	v30product = s28*v30factor;
+	allElementsEqual(n,v30product,v30factor*=s28);
+
+	//Test * operator, specifically: vector*scalar
+	n=31;
+	LorentzVector v31product, v31factor(27,-4,81,2);
+	v31product = v31factor*s28;
+	allElementsEqual(n,v31product,v31factor*=s28);
+
+	//Test - operator
+	n=32;
+	LorentzVector v32a,v32b,v32subtrahend(81,9,-13,93);
+	v32a=v32b-v32subtrahend;
+	allElementsEqual(n,v32a,v32subtrahend*(-1));
+
+	//Test / operator
+	n=33;
+	LorentzVector v33dividend(32,2,4,8), v33quotient(16,1,2,4);
+	double divisor=2;
+	v33quotient = v33dividend/divisor;
+	allElementsEqual(n,v33quotient,v33quotient);
+
+	//Test unary + operator
+	n=34;
+	allElementsEqual(n,+v33quotient,v33quotient);
+
+	//Test unary - operator
+	n=35;
+	LorentzVector v28;
+	allElementsEqual(n,-v33quotient,v28-v33quotient);
+
 	
+	//Test array subscriting -- value reading
+	n=36;
+	LorentzVector v36a(4,1,2,3);
+	LorentzVector v36b(v36a[0],v36a[1],v36a[2],v36a[3]);
+	allElementsEqual(n,v36a,v36b);
+
+	//Test array subscriting -- value setting
+	n=37;
+	LorentzVector V37(7,4,5,6);
+	v36a[0]=V37.t(); v36a[1]=V37.x(); 	v36a[2]=V37.y();	v36a[3]=V37.z();
+	allElementsEqual(n,v36a,V37);
 	
+	LorentzVector V(10,1,0,0);
 	
-	return 0;
+	//Test Boosting
+	n=38;
+	LorentzVector v38cm(1,0,0,0), v38lab(10,1,0,0);
 	
+	cout << v38lab << endl;
+	cout << v38cm << endl;
+	cout << v38cm.mass() << endl;
+	
+
+	cout << v38cm.boost(v38lab) << endl;
+	cout << v38cm << endl;
+	
+	cout << v38cm.mass() << endl;
+	
+	// Looks good. Needs more testing
 }
 

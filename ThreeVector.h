@@ -113,21 +113,31 @@ public:
 					  return crossResultVec;};
 
 	//rotate
-	ThreeVector& rotateX(const aType& phi){aType rotationMatrix[3][3] ={};
+	ThreeVector& rotateX(const aType& phi){
+						aType rotationMatrix[3][3] ={};
 						getRotationMatrix(rotationMatrix,phi,0,0);
 						productVectorMatrix(*this,rotationMatrix);
 						return *this;}; //rotate the vector by angle phi (in radians) around the x axis
-	ThreeVector& rotateY(const aType& phi){ 	aType rotationMatrix[3][3] ={};
+	ThreeVector& rotateY(const aType& phi){ 	
+						aType rotationMatrix[3][3] ={};
 						getRotationMatrix(rotationMatrix,0,phi,0);
 						productVectorMatrix(*this,rotationMatrix);
 						return *this;}; //rotate the vector by angle phi (in radians) around the y axis
-	ThreeVector& rotateZ(const aType& phi){ 	aType rotationMatrix[3][3] ={};
+	ThreeVector& rotateZ(const aType& phi){ 	
+						aType rotationMatrix[3][3] ={};
 						getRotationMatrix(rotationMatrix,0,0,phi);
 						productVectorMatrix(*this,rotationMatrix);
 						return *this;}; //rotate the vector by angle phi (in radians) around the z axis
 
-	ThreeVector unit()const{return *this/abs(*this);};
+	ThreeVector unit()const{ if(abs(*this)!=0){return *this/abs(*this);}
+								else{return *this;} //We define it this way. It might come in handy.
+							};
 
+	ThreeVector clone(){ ThreeVector<aType> clonedVector;
+		clonedVector = *this;
+		return clonedVector;};
+	//ThreeVector clone(const ThreeVector& originalVector){ ThreeVector clonedVector(originalVector);
+	//	return clonedVector;};
 };
 
 #endif
@@ -167,9 +177,12 @@ bool operator!=(const ThreeVector<aType>& vA,const ThreeVector<aType>& vB){ retu
 //we make + not a member function, so no 'ThreeVector::'
 // we choose to template the + , and the following arithmetric operators as aType operator+(aType leftSummand, const aType& rightSummand), instead of ThreeVector<aType> operator+(ThreeVector<aType> leftSummand, const ThreeVector<aType>& rightSummand). This has the advantage that we do not have to overload the + operator again for the LorentzVectors. The downside here is that we probably overload the + operator for _all_ types, even the fundamental ones. So fingers crossed that nothing breakes. It should be ok, as long as everything is defined in terms of the +=, *=, -=, /= operators.
 template <typename aType>
-ThreeVector<aType>  operator+(ThreeVector<aType>  leftSummand, const ThreeVector<aType> & rightSummand){
-	leftSummand+=rightSummand;
-	return leftSummand;}
+ThreeVector<aType> operator+(const ThreeVector<aType>&  leftSummand, const ThreeVector<aType>& rightSummand){
+	ThreeVector<aType> tempVector(leftSummand);
+	//ThreeVector<aType> tempVector = leftSummand->clone(); //Lena
+	tempVector+=rightSummand;
+	return tempVector;}
+
 
 // unary + operator
 template <typename aType>
@@ -234,3 +247,4 @@ void productVectorMatrix(ThreeVector<aType>& aVector,const aType rotationMatrix[
 	for(int m=0;m<3;++m){ aVector[m] = resultingVector[m];}
 	//delete resultingVector;
 }
+
