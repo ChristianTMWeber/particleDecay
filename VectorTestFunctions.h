@@ -26,6 +26,10 @@ using namespace std;
 #define VectorTestFunctions_h
 ////functions that makes it easier to compare vectors
 
+// things to print for passed/failed tets
+void testPassed(int const &n);
+void testFailed(int const &n);
+
 
 //declaration for LorentzVector of type double
 void allElementsEqual(  const int &n,const LorentzVector &vA, const LorentzVector &vB);
@@ -55,70 +59,79 @@ void vectorsEqualWithinAccucary(const int &n,const double sA, const double sB);
 
 #endif
 
-
 ////functions that makes it easier to compare vectors
+
+// things to print for passed/failed tets
+void testPassed(int const &n){cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+void testFailed(int const &n){cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 //definition for LorentzVector (of type double anyway)
 void allElementsEqual(const int &n,const LorentzVector &vA, const LorentzVector &vB){
 	if((vA.t()==vB.t())&&(vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 void allElementsUnequal(const int &n,const LorentzVector &vA, const LorentzVector &vB){
 	if((vA.t()!=vB.t())&&(vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
-
+		{testPassed(n);}
+	else{testFailed(n);}	}
+/*
+void vectorsEqualWithinAccucary(const int &n,const LorentzVector &vA, const LorentzVector &vB){
+	double precision = 5E-16;
+	if( abs(vA-vB)/abs(vA)<precision ) 
+		{testPassed(n);}
+	else{testFailed(n);}	}
+*/
 
 //definition for ThreeVector of type <double>
 void allElementsEqual(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
 	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 void allElementsUnequal(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
 	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 void vectorsEqualWithinAccucary(const int &n,const ThreeVector<double> &vA, const ThreeVector<double> &vB){
-	double accuracy = 3E-15;
-	if( abs(vA-vB)<accuracy ) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+	double precision = 5E-16;
+	if( abs(vA-vB)/abs(vA)<precision ) 
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 
 //definition for ThreeVector of type <int>
 void allElementsEqual(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
 	if((vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 void allElementsUnequal(const int &n,const ThreeVector<int> &vA, const ThreeVector<int> &vB){
 	if((vA.x()!=vB.x())&&(vA.y()!=vB.y())&&(vA.z()!=vB.z())) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{testFailed(n);}	}
 
 //declaration for scalar of type int
 void allElementsEqual(  const int &n,const  int &sA, const int &sB){
 	if(sA==sB)
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 //declaration for scalar of type bool
 void allElementsEqual(  const int &n,const  bool &sA, const bool &sB){
 	if(sA==sB) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 //declaration for scalar of type double
 void allElementsEqual(  const int &n,const  double &sA, const double &sB){
 	if(sA==sB) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+		{testPassed(n);}
+	else{testFailed(n);}	}
 
 void vectorsEqualWithinAccucary(const int &n,const double sA, const double sB){
-	double accuracy = 3E-15;
-	if( abs(sA-sB)<accuracy ) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}	}
+	double precision = 5E-16;
+	if( abs(sA-sB)/abs(sA)<precision ) 
+		{testPassed(n);}
+	else{testFailed(n);}	}

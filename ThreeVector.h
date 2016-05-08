@@ -53,7 +53,7 @@ public:
 	aType y()const{return my;}; //return y component of 3 vector
 	aType z()const{return mz;}; //return z component of 3 vector
 
-	aType mag()	 const{return sqrt(pow(x(),2)+pow(y(),2)+pow(z(),2));}; //return the magnitude of the vector
+	virtual aType mag()	 const{return sqrt(pow(x(),2)+pow(y(),2)+pow(z(),2));}; //return the magnitude of the vector
 	aType phi()	 const{return atan2(y(),x());}; //return the azimuthal angle of the vector in the xy plane
 	aType theta()const{return acos(z()/mag());}; //return the polar angle of the vector
 	aType perp() const{return sqrt(pow(x(),2)+pow(y(),2));}; //return the transverse (to z) component of the vector
@@ -80,7 +80,7 @@ public:
 	//NOTE, assigments are right now only between ThreeVector<aType> of the same <aType> supported
 
 	// +=, plus operator
-	ThreeVector& operator+=(const ThreeVector& addMeVector){
+	virtual ThreeVector& operator+=(const ThreeVector& addMeVector){
 				 mx+=addMeVector.x(); my+=addMeVector.y(); mz+=addMeVector.z();
 				return *this;};
 
@@ -129,7 +129,6 @@ public:
 	//// auxiliary functions
 
 
-	//void productVectorMatrix(ThreeVector<aType>& aVector,const aType rotationMatrix[3][3]);
 
 };
 
@@ -181,6 +180,9 @@ aType ThreeVector<aType>::perp()const{return sqrt(pow(x(),2)+pow(y(),2));} //ret
 // abs function  Value of vector
 template <typename aType>
 aType abs(const ThreeVector<aType>& absVector){ return absVector.mag();} //abs Value of vector
+
+
+//double abs(const ThreeVector<double>& absVector){ return absVector.mag();} //abs Value of vector
 
 /*
 //// set set methods
@@ -238,18 +240,23 @@ ThreeVector<aType>& ThreeVector<aType>::operator+=(const ThreeVector<aType>& add
 	mx+=addMeVector.x(); my+=addMeVector.y(); mz+=addMeVector.z();
 	return *this;}
 	*/
+
 // + operator
 //we make + not a member function, so no 'ThreeVector::'
+// we choose to template the + , and the following arithmetric operators as aType operator+(aType leftSummand, const aType& rightSummand), instead of ThreeVector<aType> operator+(ThreeVector<aType> leftSummand, const ThreeVector<aType>& rightSummand). This has the advantage that we do not have to overload the + operator again for the LorentzVectors. The downside here is that we probably overload the + operator for _all_ types, even the fundamental ones. So fingers crossed that nothing breakes. It should be ok, as long as everything is defined in terms of the +=, *=, -=, /= operators.
 template <typename aType>
-ThreeVector<aType> operator+(ThreeVector<aType> leftSummand, const ThreeVector<aType>& rightSummand){
+ThreeVector<aType>  operator+(ThreeVector<aType>  leftSummand, const ThreeVector<aType> & rightSummand){
 	leftSummand+=rightSummand;
 	return leftSummand;}
+
+
+
 // unary + operator
 template <typename aType>
 ThreeVector<aType>& operator+(ThreeVector<aType>& unaryPlusVector){
 	return unaryPlusVector;}
 
-/* SUBTRATION */
+/* SUBTRACTION */
 // -= operator
 	/*
 template <typename aType>

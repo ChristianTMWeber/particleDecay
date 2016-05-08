@@ -10,7 +10,8 @@ Tests the ThreeVector class which implements real three element vectors in C++
 
 //load our own files that we need
 #include "ThreeVector.h"
-#include "VectorTestFunctions.h"
+#include "LorentzVector.h"
+#include "VectorTestFunctions.h" // we are not calling this here, but the compiler needs to know that 'LorentzVector' is a viable type, to understand 'VectorTestFunctions.h', and it know this type from "VectorTestFunctions.h".
 
 //load the packages that we need
 #include <iostream> // for cin, cout
@@ -38,22 +39,22 @@ int main(int argc, char *argv[]) {
 	//check the default constructor and the methods to get the x,y, and z components
 	n=1;
 	if((v1.x()==0)&&(v1.y()==0)&&(v1.z()==0)) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//check the set method
 	n=2;
 	v1.setX(4);		v1.setY(5);		v1.setZ(6);
 	if((v1.x()==4)&&(v1.y()==5)&&(v1.z()==6)) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//check the set constructor
 	n=3;
 	ThreeVector<double> v2(1,2,3);
 	if((v2.x()==1)&&(v2.y()==2)&&(v2.z()==3)) 
-		{cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//check the copy constructor
 	n=4;
@@ -84,15 +85,17 @@ int main(int argc, char *argv[]) {
 	//test the magnitude method
 	n=9;
 	ThreeVector<double> v9a(1,2,2), v9b(4,4,4);
-	if((v9a.mag()==3)&&(v9b.mag()==sqrt(3*16))) {cout << "Test  "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+	if((v9a.mag()==3)&&(v9b.mag()==sqrt(3*16))) 
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//test the phi method
 	const double pi = 3.141592653589793;
 	n=10;
 	ThreeVector<double> v10a(1,0,0), v10b(0,1,0), v10c(1,1,0), v10d(0,-1,0), v10e(-23,-6,0);
-	if((v10a.phi()==0)&&(v10b.phi()==pi/2)&&(v10c.phi()==pi/4)&&(v10d.phi()==-pi/2)&&(v10e.phi()==atan2(-6,-23))) {cout << "Test "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+	if((v10a.phi()==0)&&(v10b.phi()==pi/2)&&(v10c.phi()==pi/4)&&(v10d.phi()==-pi/2)&&(v10e.phi()==atan2(-6,-23))) 
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//test the theta method
 
@@ -104,13 +107,14 @@ int main(int argc, char *argv[]) {
 		(abs(v11c.theta()-pi/4) < acc) &&
 		(abs(v11d.theta()-pi/4) < acc) &&
 		(    v11e.theta()==acos(79/sqrt(pow(-6,2)+pow(79,2))))
-		){cout << "Test "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+		){cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 	//test the perp method
 	n=12;
 	ThreeVector<int> v12(4,3,980708);
-	if( v12.perp()==5){cout << "Test "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+	if( v12.perp()==5)
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//test the output operator
 	n=13;
@@ -119,8 +123,9 @@ int main(int argc, char *argv[]) {
 	testStringStream 		<< v12;
 	referenceStringStream	<< v12.x() <<"\t"<< v12.y() <<"\t"<< v12.z();
 
-	if(testStringStream.str() == referenceStringStream.str() ){cout << "Test "<<n<<" passed!"<< endl;}
-	else{cout << "Test  "<<n<<" FAILED!"<< endl;}
+	if(testStringStream.str() == referenceStringStream.str() )
+		{cout << "Test\t"<<n<<"\tpassed!"<< endl;}
+	else{cout << "Test\t"<<n<<"\tFAILED!!"<< endl;}
 
 	//test the += operator
 	n=14;
@@ -274,8 +279,8 @@ int main(int argc, char *argv[]) {
 
 	//check <<, and >> operator for file streams
 	n=43;
-	ofstream ofs43("Test43.txt");
-	ifstream ifs43("Test43.txt");
+	ofstream ofs43("ThreeVectorTest43.txt");
+	ifstream ifs43("ThreeVectorTest43.txt");
 	ThreeVector<int> v43out(2,3,5),v43in;
 
 	ofs43 << v43out	<< endl;
