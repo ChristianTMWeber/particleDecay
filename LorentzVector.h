@@ -10,8 +10,11 @@ Contains the delerations of the LorentzVector class. A class derived from the Th
 LorentzVector - A class that implements (real valued) four component  lorentz vectors in C++. We define our vector such that the components are (ct, x,y,z) and our metric such that the contravariant Lorentz vector is (ct,-x,-y,-z)
 
 */
-#ifndef LorentzVector_h
 
+
+#ifndef LorentzVector_h
+#include <iostream>
+#include <cmath>
 
 // class decleration
 class LorentzVector: public ThreeVector<double>{
@@ -176,7 +179,7 @@ void productVectorMatrix(LorentzVector& fourVector,const double boostMatrix[4][4
 
 #endif
 
-////constructors
+//// boolean operators
 
 bool operator==(const LorentzVector& vA,const LorentzVector& vB){ return (vA.t()==vB.t()&&vA.x()==vB.x())&&(vA.y()==vB.y())&&(vA.z()==vB.z()); }
 bool operator!=(const LorentzVector& vA,const LorentzVector& vB){ return !(vA==vB); }

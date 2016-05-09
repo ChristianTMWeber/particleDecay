@@ -314,7 +314,9 @@ int main(int argc, char *argv[]) {
 	//check my definition implementation of the unit vector of the (0,0,0) vector
 	n=46;
 	ThreeVector<double> v45(0,0,0);
-	cout << v45.unit();
+	cout << v45.unit()<<endl;
+	
+
 	
 		/*
 	ThreeVector<int> originalVec(9,8,7);
