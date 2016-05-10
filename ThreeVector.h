@@ -38,6 +38,8 @@ protected:
 							rotationMatrix[2][2]= cos(xPhi)*cos(yPhi);
 							};
 
+
+
 public:
 	////constructors
 	ThreeVector(){mx=0; my=0; mz=0;};	//default constructor
@@ -67,8 +69,8 @@ public:
 	void setZ(aType val){mz = val;}; //set z component of 3 vector
 
 	//array subscripting operator
-	aType& operator[](const int index){
-	switch(abs(index%3)){ 	case 0:  return mx; break;
+	aType& operator[](const unsigned int index){
+	switch(index%3){ 	case 0:  return mx; break;
 							case 1:  return my; break;
 							case 2:  return mz; break;
 							default: return mx; break; // there is no way this should be called. But the -wall -pedantic -obnoxious compiler demands a non-local default return. So this is a bad hack. It'll work for now.
@@ -245,6 +247,6 @@ void productVectorMatrix(ThreeVector<aType>& aVector,const aType rotationMatrix[
 	}
 	//write the results into the aVector
 	for(int m=0;m<3;++m){ aVector[m] = resultingVector[m];}
-	//delete resultingVector;
 }
+
 

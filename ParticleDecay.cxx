@@ -110,10 +110,10 @@ ofstream outputFileStream; outputFileStream.open ("ParticleDecayTest.txt");//, o
 		positronMomentum4.boost(JMomentum4);
 
 		
-		cout<< electronMomentum4 <<"\n" << positronMomentum4 <<"\n" << "\n";
+		cout<< electronMomentum4 <<"\n" << positronMomentum4 <<"\n";
 
 		
-//outputFileStream<< electronMomentum4 <<"\n" << positronMomentum4 <<"\n"<< "\n";
+//outputFileStream<< electronMomentum4 <<"\n" << positronMomentum4 <<"\n";
 
 	}
 //outputFileStream.close();

@@ -11,8 +11,9 @@ LorentzVector - A class that implements (real valued) four component  lorentz ve
 
 */
 
-
+//#include "ThreeVector.h"
 #ifndef LorentzVector_h
+#define LorentzVector_h
 #include <iostream>
 #include <cmath>
 
@@ -117,7 +118,7 @@ public:
 
 	//array subscripting operator
 	double& operator[](const unsigned int index){
-		switch(abs(index%4)){ 	case 0: return ct; break;
+		switch(index%4){ 	case 0: return ct; break;
 								case 1: return mx; break;
 								case 2: return my; break;
 								case 3: return mz; break;
