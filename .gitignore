@@ -31,3 +31,10 @@
 *.layout
 *.win
 
+# text outputs and supplemetal text files
+*.docx
+*.pdf
+*.txt
+
+# visual studio project file
+*.dev
