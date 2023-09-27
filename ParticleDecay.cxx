@@ -56,9 +56,9 @@ int main(int argc, char *argv[]) {
 	
 	if(argc!=5){ 
 			cout<<"ParticleDecay.cxx - needs exactly 4 arguments passed to." << endl;
-			cout<<"argument 1 - momentum of the J/psi along the x-axis in the lab frame in GeV/c^2." << endl;
-			cout<<"argument 2 - momentum of the J/psi along the y-axis in the lab frame in GeV/c^2." << endl;
-			cout<<"argument 3 - momentum of the J/psi along the z-axis in the lab frame in GeV/c^2." << endl;
+			cout<<"argument 1 - momentum of the J/psi along the x-axis in the lab frame in GeV/c." << endl;
+			cout<<"argument 2 - momentum of the J/psi along the y-axis in the lab frame in GeV/c." << endl;
+			cout<<"argument 3 - momentum of the J/psi along the z-axis in the lab frame in GeV/c." << endl;
 			cout<<"argument 4 - number of decays to simulate." << endl;
 			cout<<"Please call the programm again with the proper number of arguments." << endl;
 			return 0;
